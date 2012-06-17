@@ -2,19 +2,19 @@ rscurl.sh is an atempt to create a command line tool that interfaces with Racksp
 
 It supports the following commands:
 
-		list-servers	- Lists all the servers you have on your account.
-		list-flavors	- Lists all the types of server that are available to you.
-		list-images		- Lists all the server images that are available to you.
-		create-server	- Creates a new server
-		delete-server	- Deletes a server
-		rebuild			- Rebuilds a server with the new image, all data will be lost.
-		resize			- Resizes a server
-		confirm-resize	- Confirms a recently resized server, after 24 hours it is done automatically.
-		revert-resize	- Reverts a recently resized server to the previous size.
-		reboot			- Reboots a server
-		force-reboot	- Forces a server to reboot, equivalent to pulling the power.
-		create-image	- Creates a new image based on an existing server.
-		delete-image	- Deletes a server image that you own.
+    list-servers  - Lists all the servers you have on your account.
+    list-flavors  - Lists all the types of server that are available to you.
+    list-images    - Lists all the server images that are available to you.
+    create-server  - Creates a new server
+    delete-server  - Deletes a server
+    rebuild      - Rebuilds a server with the new image, all data will be lost.
+    resize      - Resizes a server
+    confirm-resize  - Confirms a recently resized server, after 24 hours it is done automatically.
+    revert-resize  - Reverts a recently resized server to the previous size.
+    reboot      - Reboots a server
+    force-reboot  - Forces a server to reboot, equivalent to pulling the power.
+    create-image  - Creates a new image based on an existing server.
+    delete-image  - Deletes a server image that you own.
 
 Here is an example of the output for the servers, flavors, and images.
 
