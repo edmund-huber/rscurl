@@ -4,16 +4,18 @@
 #
 # Copyright Notice: GPL
 
-function usage () {
+function usage() {
   cat <<EOF
 rscurl -u username -a apiKey -c command [ -s serverID ] [ -n name ] [ -i imageID ] [ -f flavorID ] [ -q -h ]
   v 0.1
   rscurl is a command line tool for managing Rackspace Cloud Servers.  It uses curl, awk, sed, 
   and tr to accomplish this in the hopes that it will work on most systems that use bash.
 
-  -u Your rackspace username.
-  -a Your rackspace api key, found on your rackspace cloud dashboard under Your Account, API Access.
-     This cannot be your password.
+  Either provide a ~/.rack with the format "$USERNAME $KEY", or specify:
+    -u Your rackspace username.
+    -a Your rackspace api key, found on your rackspace cloud dashboard under Your Account, API Access.
+       This cannot be your password.
+
   -c command, possible commands are:
     list-servers  - Lists all the servers you have on your account.
     list-flavors  - Lists all the types of server that are available to you.
@@ -44,6 +46,7 @@ rscurl -u username -a apiKey -c command [ -s serverID ] [ -n name ] [ -i imageID
   -q Quiet mode, all commands except list-* will exit quietly
   -h Show this menu.
 EOF
+  exit $1
 }
 #Authenticates to the Rackspace Service and sets up the Authentication Token and Managment server
 #REQUIRES: 1=AuthUser 2=API_Key
@@ -283,27 +286,31 @@ function http_code_eval () {
 }
 #Variables
 QUIET=0
-#Check for enough variables, print usage if not enough.
-if [ $# -lt 6 ]
-  then
-  usage
-  exit 1
-fi
-#Get options from the command line.
-while getopts "u:a:c:s:n:i:f:hq" option
-do
-  case $option in
-    u  ) RSUSER=$OPTARG ;;
-    a  ) RSAPIKEY=$OPTARG ;;
-    c  ) MYCOMMAND=$OPTARG ;;
-    s  ) RSSERVID=$OPTARG ;;
-    n  ) MYNAME=$OPTARG ;;
-    i  ) RSIMAGEID=$OPTARG ;;
-    f  ) RSFLAVORID=$OPTARG ;;
-    h  ) usage;exit 0 ;;
-    q  ) QUIET=1 ;;
+
+# Get options!
+while getopts "u:a:c:s:n:i:f:hq" OPT; do
+  case $OPT in
+    u) RSUSER=$OPTARG ;;
+    a) RSAPIKEY=$OPTARG ;;
+    c) MYCOMMAND=$OPTARG ;;
+    s) RSSERVID=$OPTARG ;;
+    n) MYNAME=$OPTARG ;;
+    i) RSIMAGEID=$OPTARG ;;
+    f) RSFLAVORID=$OPTARG ;;
+    h) usage 0 ;;
+    q) QUIET=1 ;;
   esac
 done
+
+# Either specify -u and -a, or have a ~/.rack .
+if [ -z "$RSUSER" -o -z "$RSAPIKEY" ]; then
+  if [ -f ~/.rack ]; then
+    read RSUSER RSAPIKEY < ~/.rack
+  else
+    usage 1
+  fi
+fi
+
 #All actions require authentication, get it done first.
 #If the authentication works this will return $TOKEN and $MGMTSVR for use by everything else.
 get_auth $RSUSER $RSAPIKEY
@@ -445,7 +452,7 @@ case $MYCOMMAND in
       exit 98
     fi
     rsdelete $TOKEN $MGMTSVR $RSIMAGEID "images" ;;
-  *        ) echo Unknown Command ; usage ; exit 2 ;;
+  *        ) echo Unknown Command ; usage 2 ;;
 esac
 #done
 exit 0
