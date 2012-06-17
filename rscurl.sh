@@ -3,48 +3,7 @@
 #   j@jsquaredconsulting.com
 #
 # Copyright Notice: GPL
-#
-#rscurl -u username -a apiKey -c command [ -s serverID ] [ -n name ] [ -i imageID ] [ -f flavorID ] [ -q -h ]
-#  v 0.1
-#  rscurl is a command line tool for managing Rackspace Cloud Servers.  It uses curl, awk, sed, 
-#  and tr to accomplish this in the hopes that it will work on most systems that use bash.  
-#  
-#  -u Your rackspace username.
-#  -a Your rackspace api key, found on your rackspace cloud dashboard under Your Account, API Access.
-#     This cannot be your password.
-#  -c command, possible commands are:
-#    list-servers  - Lists all the servers you have on your account.
-#    list-flavors  - Lists all the types of server that are available to you.
-#    list-images    - Lists all the server images that are available to you.
-#    create-server  - Creates a new server
-#              requires an imageID (-i) and flavorID (-f)
-#              optional name (-n)
-#    delete-server  - Deletes a server, requires serverID (-s).
-#              DANGER: Server deleted without prompt, be sure.
-#    rebuild      - Rebuilds a server with the new image, all data will be lost.
-#              requires an imageID (-i) and serverID (-s)
-#    resize      - Resizes a server, requires flavorID (-f)
-#    confirm-resize  - Confirms a recently resized server, after 24 hours it is done automatically.
-#              requires serverID (-s)
-#    revert-resize  - Reverts a recently resized server to the previous size.
-#              requires serverID (-s)
-#    reboot      - Reboots a server, requires serverID (-s)
-#    force-reboot  - Forces a server to reboot, equivalent to pulling the power.
-#               Requires serverID (-s)
-#    create-image  - Creates a new image based on an existing server.
-#              Requires serverID (-s), optional name (-n)
-#    delete-image  - Deletes a server image that you own.
-#              Requires imageID (-i)
-#  -s Server ID, required for some commands. To see the servers run list-servers.
-#  -i Image ID, required for some commands. To see the images run list-images.
-#  -f Flavor ID, required for some commands.  To see the flavors run list-flavors.
-#  -n Name of server(required) or image(optional) when creating them.  
-#  -q Quiet mode, all commands except list-* will exit quietly
-#  -h show this menu
-#
-# FUNCTIONS
-#
-#prints out the usage information on error or request.
+
 function usage () {
   cat <<EOF
 rscurl -u username -a apiKey -c command [ -s serverID ] [ -n name ] [ -i imageID ] [ -f flavorID ] [ -q -h ]
